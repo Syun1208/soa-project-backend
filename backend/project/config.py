@@ -24,7 +24,12 @@ class DevelopmentConfig(BaseConfig):
     """Development configuration"""
 
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+
+    db_user = os.environ.get("DB_USER")
+    db_password = os.environ.get("DB_PASSWORD")
+    db_url = os.environ.get("DEV_DB_URL")  # e.g., "db:5432/dev"
+
+    SQLALCHEMY_DATABASE_URI = f"postgresql://{db_user}:{db_password}@{db_url}"
     DEBUG_TB_ENABLED = True
     BCRYPT_LOG_ROUNDS = 4
     LOG_LEVEL = logging.DEBUG
@@ -34,7 +39,11 @@ class TestingConfig(BaseConfig):
     """Testing configuration"""
 
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_TEST_URL")
+    db_user = os.environ.get("DB_USER")
+    db_password = os.environ.get("DB_PASSWORD")
+    db_url = os.environ.get("TEST_DB_URL")  # e.g., "db:5432/dev"
+
+    SQLALCHEMY_DATABASE_URI = f"postgresql://{db_user}:{db_password}@{db_url}"
     BCRYPT_LOG_ROUNDS = 4
     TOKEN_EXPIRATION_DAYS = 0
     TOKEN_EXPIRATION_SECONDS = 3
@@ -44,6 +53,10 @@ class TestingConfig(BaseConfig):
 class ProductionConfig(BaseConfig):
     """Production configuration"""
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+    db_user = os.environ.get("DB_USER")
+    db_password = os.environ.get("DB_PASSWORD")
+    db_url = os.environ.get("PRODUCT_DB_URL")  # e.g., "db:5432/dev"
+
+    SQLALCHEMY_DATABASE_URI = f"postgresql://{db_user}:{db_password}@{db_url}"
     LOG_LEVEL = logging.ERROR
     LOG_TO_STDOUT = True
