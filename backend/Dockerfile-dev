@@ -9,6 +9,8 @@ RUN apt-get update -y && \
     apt-get install -y python3-dev libpq-dev build-essential && \
     rm -rf /var/lib/apt/lists/*
 
+# Đặt biến môi trường mặc định cho PORT
+ENV PORT=80
     
 # set working directory
 RUN mkdir -p /usr/src/app

@@ -8,17 +8,16 @@ services:
     volumes:
         - './backend:/usr/src/app'
     ports:
-      - 5001:5000
+      - "5001:${PORT:-80}"
     environment:
       - FLASK_APP=project/__init__.py
       - FLASK_DEBUG=1
       - APP_SETTINGS=project.config.DevelopmentConfig
       - DB_USER=postgres
       - DB_PASSWORD=postgres
-      - DEV_DB_URL=db:5432/dev
-      - TEST_DB_URL=db:5432/dev
-      - PRODUCT_DB_URL=db:5432/dev
+      - DB_URL=db:5432/dev
       - SECRET_KEY=my_precious
+      - PORT=${PORT:-80}
     depends_on:
       - db
     links:
@@ -34,4 +33,3 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-
