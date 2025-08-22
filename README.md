@@ -14,8 +14,8 @@ Trước khi bắt đầu, hãy chắc chắn rằng bạn đã cài đặt các
 1.  **Clone repository**
 
     ```bash
-    git clone https://github.com/longngo192/soa-final-project-backend.git
-    cd soa-final-project-backend
+    git clone https://github.com/cloud-mentor-pro/soa-project-backend.git
+    cd soa-project-backend
     ```
 
 ## Chạy ứng dụng
@@ -58,6 +58,11 @@ Trước khi bắt đầu, hãy chắc chắn rằng bạn đã cài đặt các
 -   **Database**: Cơ sở dữ liệu PostgreSQL có thể được truy cập từ máy host tại `localhost:5435` với thông tin đăng nhập sau:
     -   **User**: `postgres`
     -   **Password**: `postgres`
+
+## API Healthcheck
+```
+http://localhost:5001/users/ping
+```
 
 ## Dừng ứng dụng
 
