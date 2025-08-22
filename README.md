@@ -61,7 +61,15 @@ Trước khi bắt đầu, hãy chắc chắn rằng bạn đã cài đặt các
 
 ## Dừng ứng dụng
 
-Để dừng và xóa các container, sử dụng lệnh sau:
-
 ```bash
+# Dừng và xóa tất cả containers, networks
 docker-compose -f docker-compose-dev.yml down
+
+# Xóa containers + volumes
+docker-compose -f docker-compose-dev.yml down -v
+
+# Xóa containers + volumes + images
+docker-compose -f docker-compose-dev.yml down -v --rmi all
+
+# Xóa tất cả (containers, networks, volumes, images)
+docker-compose -f docker-compose-dev.yml down -v --rmi all --remove-orphans
