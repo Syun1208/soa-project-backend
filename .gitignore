@@ -7,3 +7,8 @@ __pycache__/
 
 # Logs
 backend/log/
+
+*.pyc
+*.log
+.*
+!.github/
