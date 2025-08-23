@@ -50,8 +50,8 @@ Trước khi bắt đầu, hãy chắc chắn rằng bạn đã cài đặt các
     Sau khi các container đã chạy, bạn cần thực thi các lệnh sau để tạo database và áp dụng migrations:
 
     ```bash
-    docker compose -f docker compose-dev.yml exec backend python manage.py db migrate
-    docker compose -f docker compose-dev.yml exec backend python manage.py db upgrade
+    docker compose -f docker-compose-dev.yml exec backend python manage.py db migrate
+    docker compose -f docker-compose-dev.yml exec backend python manage.py db upgrade
     ```
 
 ## Truy cập ứng dụng
