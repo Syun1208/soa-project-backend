@@ -29,7 +29,7 @@ Trước khi bắt đầu, hãy chắc chắn rằng bạn đã cài đặt các
     Sử dụng lệnh sau để build các image và khởi chạy các container cho môi trường phát triển:
 
     ```bash
-    docker compose -f docker compose-dev.yml up -d --build
+    docker-compose -f docker-compose-dev.yml up -d --build
     ```
 
     - `-d`: Chạy các container ở chế độ detached (chạy nền).
@@ -50,8 +50,8 @@ Trước khi bắt đầu, hãy chắc chắn rằng bạn đã cài đặt các
     Sau khi các container đã chạy, bạn cần thực thi các lệnh sau để tạo database và áp dụng migrations:
 
     ```bash
-    docker compose -f docker-compose-dev.yml exec backend python manage.py db migrate
-    docker compose -f docker-compose-dev.yml exec backend python manage.py db upgrade
+    docker-compose -f docker-compose-dev.yml exec backend python manage.py db migrate
+    docker-compose -f docker-compose-dev.yml exec backend python manage.py db upgrade
     ```
 
 ## Truy cập ứng dụng

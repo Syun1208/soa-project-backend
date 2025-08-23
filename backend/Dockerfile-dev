@@ -1,4 +1,5 @@
 FROM python:3.12.11-slim-bullseye
+
 # install environment dependencies
 RUN apt-get update -yqq \
     && apt-get install -yqq --no-install-recommends \
@@ -24,11 +25,11 @@ COPY ./requirements.txt /usr/src/app/requirements.txt
 # install requirements
 RUN pip install -r requirements.txt
 
-# # add entrypoint.sh
-COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
+# Copy source code
+COPY . /usr/src/app
+
+# Set quyền execute cho entrypoint.sh AFTER copying
 RUN chmod +x /usr/src/app/entrypoint.sh
 
-# # RUN ls .
-COPY . /usr/src/app
 # run server
 CMD ["./entrypoint.sh"]
