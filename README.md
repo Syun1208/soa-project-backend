@@ -21,11 +21,15 @@ Trước khi bắt đầu, hãy chắc chắn rằng bạn đã cài đặt các
 ## Chạy ứng dụng
 
 1.  **Build và khởi chạy các container**
-
+    - Vào thư mục dự án và cấp quyền cần thiết cho `entrypoint.sh`
+    ```bash
+    cd soa-project-backend
+    sudo chmod+x backend/entrypoint.sh
+    ```
     Sử dụng lệnh sau để build các image và khởi chạy các container cho môi trường phát triển:
 
     ```bash
-    docker-compose -f docker-compose-dev.yml up -d --build
+    docker compose -f docker compose-dev.yml up -d --build
     ```
 
     - `-d`: Chạy các container ở chế độ detached (chạy nền).
@@ -36,20 +40,18 @@ Trước khi bắt đầu, hãy chắc chắn rằng bạn đã cài đặt các
     Để chắc chắn rằng các container đã được khởi chạy thành công, bạn có thể dùng lệnh:
 
     ```bash
-    docker-compose -f docker-compose-dev.yml ps
+    docker ps
     ```
 
     Bạn sẽ thấy trạng thái `Up` cho các service `backend` và `db`.
 
-3.  **Tạo database và migrations**
-
+3.  **Tạo database và migrations** (chỉ chạy khi có update schema bình thường không cần chạy )
+    - Khi có thay đổi schema db thì cần chạy các câu lênh bên dưới :
     Sau khi các container đã chạy, bạn cần thực thi các lệnh sau để tạo database và áp dụng migrations:
 
     ```bash
-    docker-compose -f docker-compose-dev.yml exec backend python manage.py recreate_db
-    docker-compose -f docker-compose-dev.yml exec backend python manage.py db migrate
-    docker-compose -f docker-compose-dev.yml exec backend python manage.py db upgrade
-    docker-compose -f docker-compose-dev.yml exec backend python manage.py seed_db
+    docker compose -f docker compose-dev.yml exec backend python manage.py db migrate
+    docker compose -f docker compose-dev.yml exec backend python manage.py db upgrade
     ```
 
 ## Truy cập ứng dụng
@@ -68,13 +70,13 @@ http://localhost:5001/users/ping
 
 ```bash
 # Dừng và xóa tất cả containers, networks
-docker-compose -f docker-compose-dev.yml down
+docker compose -f docker-compose-dev.yml down
 
 # Xóa containers + volumes
-docker-compose -f docker-compose-dev.yml down -v
+docker compose -f docker-compose-dev.yml down -v
 
 # Xóa containers + volumes + images
-docker-compose -f docker-compose-dev.yml down -v --rmi all
+docker compose -f docker-compose-dev.yml down -v --rmi all
 
 # Xóa tất cả (containers, networks, volumes, images)
-docker-compose -f docker-compose-dev.yml down -v --rmi all --remove-orphans
+docker compose -f docker-compose-dev.yml down -v --rmi all --remove-orphans

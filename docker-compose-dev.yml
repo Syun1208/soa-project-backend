@@ -15,7 +15,9 @@ services:
       - APP_SETTINGS=project.config.DevelopmentConfig
       - DB_USER=postgres
       - DB_PASSWORD=postgres
-      - DB_URL=db:5432/dev
+      - DB_URL=${DB_URL:-db}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_NAME=${DB_NAME:-dev}
       - SECRET_KEY=my_precious
       - PORT=${PORT:-80}
     depends_on:

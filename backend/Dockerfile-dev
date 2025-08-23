@@ -11,7 +11,9 @@ RUN apt-get update -y && \
 
 # Đặt biến môi trường mặc định cho PORT
 ENV PORT=80
-    
+ENV DB_URL=db
+ENV DB_PORT=5432
+
 # set working directory
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -22,12 +24,11 @@ COPY ./requirements.txt /usr/src/app/requirements.txt
 # install requirements
 RUN pip install -r requirements.txt
 
-# add entrypoint.sh
+# # add entrypoint.sh
 COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
 RUN chmod +x /usr/src/app/entrypoint.sh
 
-# add app
-COPY . /usr/src/app
-
+# # RUN ls .
+# COPY . /usr/src/app
 # run server
-CMD ["./entrypoint.sh"]
+CMD [./entrypoint.sh]

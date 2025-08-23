@@ -1,12 +1,11 @@
 #!/bin/sh
 echo "Waiting for postgres..."
 
-while ! nc -z db 5432; do
+while ! nc -z $DB_URL $DB_PORT; do
     sleep 0.1
 done
 echo "PostgreSQL started"
 
-python manage.py recreate_db
-python manage.py seed_db
+python manage.py setup_db
 
 gunicorn -b 0.0.0.0:$PORT manage:app
