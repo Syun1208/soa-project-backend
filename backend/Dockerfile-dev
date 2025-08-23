@@ -31,4 +31,4 @@ RUN chmod +x /usr/src/app/entrypoint.sh
 # # RUN ls .
 # COPY . /usr/src/app
 # run server
-CMD [./entrypoint.sh]
+CMD ["./entrypoint.sh"]
