@@ -18,15 +18,12 @@ from project.api.models import User, Exercise, Score
 app = create_app()
 cli = FlaskGroup(app)
 
-
-@cli.command("recreate_db")
 def recreate_db():
     db.drop_all()
     db.create_all()
     db.session.commit()
 
 
-@cli.command("seed_db")
 def seed_db():
     """Seeds the database."""
     db.session.add(
@@ -962,25 +959,34 @@ def create_databases():
 @cli.command("setup_db")
 def setup_db():
     """Kiểm tra table và dữ liệu, chỉ chạy recreate_db và seed_db nếu chưa có."""
-    from sqlalchemy.inspection import inspect
+    from sqlalchemy import inspect
+    from sqlalchemy.exc import SQLAlchemyError  # Import để catch lỗi
+    from project.api.models import Exercise
 
-    inspector = inspect(db.engine)
-    tables = ['users', 'exercises', 'scores']  # Các table từ models
+    try:
+        inspector = inspect(db.engine)
+        tables = ['users', 'exercises', 'scores']  # Các table từ models
 
-    has_tables = all(inspector.has_table(table) for table in tables)
+        has_tables = all(inspector.has_table(table) for table in tables)
 
-    if not has_tables:
-        print("Chưa có table, chạy recreate_db...")
-        recreate_db()
-        print("Chạy seed_db...")
-        seed_db()
-    else:
-        # Kiểm tra dữ liệu seed (ví dụ: kiểm tra số lượng Exercise)
-        if Exercise.query.count() == 0:
-            print("Table tồn tại nhưng chưa có dữ liệu seed, chạy seed_db...")
+        if not has_tables:
+            print("Chưa có table, chạy recreate_db...")
+            recreate_db()
+            print("recreate_db hoàn tất. Bây giờ chạy seed_db...")
             seed_db()
+            print("seed_db hoàn tất.")
         else:
-            print("Database đã có table và dữ liệu seed, không cần chạy gì thêm.")
+            # Kiểm tra dữ liệu seed (ví dụ: kiểm tra số lượng Exercise)
+            if Exercise.query.count() == 0:
+                print("Table tồn tại nhưng chưa có dữ liệu seed, chạy seed_db...")
+                seed_db()
+                print("seed_db hoàn tất.")
+            else:
+                print("Database đã có table và dữ liệu seed, không cần chạy gì thêm.")
+    except SQLAlchemyError as e:
+        print(f"Lỗi SQLAlchemy: {e}")
+    except Exception as e:
+        print(f"Lỗi không mong đợi: {e}")
 
 if __name__ == "__main__":
     cli()
