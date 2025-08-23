@@ -18,12 +18,15 @@ from project.api.models import User, Exercise, Score
 app = create_app()
 cli = FlaskGroup(app)
 
+
+@cli.command("recreate_db")
 def recreate_db():
     db.drop_all()
     db.create_all()
     db.session.commit()
 
 
+@cli.command("seed_db")
 def seed_db():
     """Seeds the database."""
     db.session.add(
@@ -929,64 +932,6 @@ def run_tests():
         pytest.main(["project/tests", "-v"])
     )  # Exit với code từ pytest, fail thì báo lỗi
 
-@cli.command("create_databases")
-def create_databases():
-    """Kiểm tra và tạo các database prod, dev, test nếu chưa tồn tại."""
-    from sqlalchemy import create_engine
-    from sqlalchemy.exc import OperationalError
-    from urllib.parse import urlparse
-    import sqlalchemy as sa
-
-    databases = ['prod', 'dev', 'test']
-    uri = app.config['SQLALCHEMY_DATABASE_URI']
-    parsed = urlparse(uri)
-    base_url = parsed._replace(path='/postgres').geturl()  # Kết nối đến database mặc định 'postgres' để tạo DB mới
-
-    engine = create_engine(base_url, isolation_level='AUTOCOMMIT')
-    with engine.connect() as conn:
-        for db_name in databases:
-            try:
-                result = conn.execute(sa.text(f"SELECT 1 FROM pg_database WHERE datname = '{db_name}'"))
-                if not result.fetchone():
-                    conn.execute(sa.text(f"CREATE DATABASE {db_name}"))
-                    print(f"Đã tạo database {db_name}.")
-                else:
-                    print(f"Database {db_name} đã tồn tại.")
-            except OperationalError as e:
-                print(f"Lỗi khi xử lý database {db_name}: {e}")
-
-# Phần mới thêm: Lệnh để kiểm tra table và seed nếu cần
-@cli.command("setup_db")
-def setup_db():
-    """Kiểm tra table và dữ liệu, chỉ chạy recreate_db và seed_db nếu chưa có."""
-    from sqlalchemy import inspect
-    from sqlalchemy.exc import SQLAlchemyError  # Import để catch lỗi
-    from project.api.models import Exercise
-
-    try:
-        inspector = inspect(db.engine)
-        tables = ['users', 'exercises', 'scores']  # Các table từ models
-
-        has_tables = all(inspector.has_table(table) for table in tables)
-
-        if not has_tables:
-            print("Chưa có table, chạy recreate_db...")
-            recreate_db()
-            print("recreate_db hoàn tất. Bây giờ chạy seed_db...")
-            seed_db()
-            print("seed_db hoàn tất.")
-        else:
-            # Kiểm tra dữ liệu seed (ví dụ: kiểm tra số lượng Exercise)
-            if Exercise.query.count() == 0:
-                print("Table tồn tại nhưng chưa có dữ liệu seed, chạy seed_db...")
-                seed_db()
-                print("seed_db hoàn tất.")
-            else:
-                print("Database đã có table và dữ liệu seed, không cần chạy gì thêm.")
-    except SQLAlchemyError as e:
-        print(f"Lỗi SQLAlchemy: {e}")
-    except Exception as e:
-        print(f"Lỗi không mong đợi: {e}")
 
 if __name__ == "__main__":
     cli()

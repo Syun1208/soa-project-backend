@@ -16,7 +16,8 @@ echo "PostgreSQL started"
 
 
 # Chạy setup_db với debug
-echo "Chạy python manage.py setup_db..."
-python manage.py setup_db || { echo "Lỗi trong setup_db!"; exit 1; }  # Exit nếu lỗi
+
+python manage.py recreate_db
+python manage.py seed_db
 
 gunicorn -b 0.0.0.0:$PORT manage:app
