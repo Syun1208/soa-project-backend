@@ -24,7 +24,7 @@ Trước khi bắt đầu, hãy chắc chắn rằng bạn đã cài đặt các
     - Vào thư mục dự án và cấp quyền cần thiết cho `entrypoint.sh`
     ```bash
     cd soa-project-backend
-    sudo chmod+x backend/entrypoint.sh
+    # sudo chmod+x backend/entrypoint.sh
     ```
     Sử dụng lệnh sau để build các image và khởi chạy các container cho môi trường phát triển:
 
@@ -40,7 +40,7 @@ Trước khi bắt đầu, hãy chắc chắn rằng bạn đã cài đặt các
     Để chắc chắn rằng các container đã được khởi chạy thành công, bạn có thể dùng lệnh:
 
     ```bash
-    docker ps
+    docker-compose -f docker-compose-dev.yml ps
     ```
 
     Bạn sẽ thấy trạng thái `Up` cho các service `backend` và `db`.
@@ -70,13 +70,13 @@ http://localhost:5001/users/ping
 
 ```bash
 # Dừng và xóa tất cả containers, networks
-docker compose -f docker-compose-dev.yml down
+docker-compose -f docker-compose-dev.yml down
 
 # Xóa containers + volumes
-docker compose -f docker-compose-dev.yml down -v
+docker-compose -f docker-compose-dev.yml down -v
 
 # Xóa containers + volumes + images
-docker compose -f docker-compose-dev.yml down -v --rmi all
+docker-compose -f docker-compose-dev.yml down -v --rmi all
 
 # Xóa tất cả (containers, networks, volumes, images)
-docker compose -f docker-compose-dev.yml down -v --rmi all --remove-orphans
+docker-compose -f docker-compose-dev.yml down -v --rmi all --remove-orphans
