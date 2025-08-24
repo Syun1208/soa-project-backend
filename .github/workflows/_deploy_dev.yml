@@ -30,6 +30,7 @@ env:
   CONTAINER_NAME: soa-container-codeland-${{ inputs.service-type }}
   ECS_TASK_DEFINITION: ./backend/taskdef_dev.json
   ENVIRONMENT: develop
+  # TODO: Thay thế bằng giá trị môi trường của bạn
   SECRET_ARN: rds!db-5d9f82d2-f2c5-467e-9b94-462be22f5508-YqTmgP
   
 
