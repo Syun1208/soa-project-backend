@@ -8,7 +8,7 @@ while ! nc -z $DB_URL $DB_PORT; do
     sleep 0.1
     counter=$((counter + 1))
     if [ $counter -ge 600 ]; then  # 600 * 0.1s = 60s
-        echo "Timeout: Không thể kết nối PostgreSQL sau 60 giây."
+        echo "Timeout: Không thể kết nối PostgreSQL sau 60 seconds."
         exit 1
     fi
 done
