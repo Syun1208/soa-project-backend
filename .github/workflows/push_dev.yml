@@ -3,7 +3,7 @@ name: CI/CD Pipeline - Independent Jobs
 on:
   push:
     branches: 
-      - 'main'
+      - 'develop'
 
 permissions:
   id-token: write
