@@ -15,8 +15,6 @@ done
 echo "PostgreSQL started"
 
 
-# Chạy setup_db với debug
-
 python manage.py recreate_db
 python manage.py seed_db
 
