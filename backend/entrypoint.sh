@@ -1,6 +1,6 @@
 #!/bin/sh
 echo "Waiting for postgres..."
-set -e  # Exit ngay nếu bất kỳ lệnh nào thất bại
+set -e 
 
 # Thêm timeout để tránh loop vô hạn (ví dụ: 60 giây)
 counter=0
